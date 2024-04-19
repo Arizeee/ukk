@@ -31,6 +31,6 @@ class KoleksiSeeder extends Seeder
             // Tambahkan data lainnya sesuai kebutuhan
 
         ];
-        DB::table('buku')->insert($data);
+        DB::table('koleksi')->insert($data);
     }
 }

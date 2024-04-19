@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class BukuSeeder extends Seeder
 {
@@ -15,7 +16,7 @@ class BukuSeeder extends Seeder
         $data = [
             [
                 'judul' => 'Judul Buku Pertama',
-                'gambar' => 'sampul_buku_pertama.jpg',
+                'sampul' => 'sampul_buku_pertama.jpg',
                 'penulis' => 'Penulis Pertama',
                 'penerbit' => 'Penerbit Pertama',
                 'tahun_terbit' => 2020,
@@ -25,7 +26,7 @@ class BukuSeeder extends Seeder
             ],
             [
                 'judul' => 'Judul Buku Kedua',
-                'gambar' => 'sampul_buku_kedua.jpg',
+                'sampul' => 'sampul_buku_kedua.jpg',
                 'penulis' => 'Penulis Kedua',
                 'penerbit' => 'Penerbit Kedua',
                 'tahun_terbit' => 2021,
@@ -35,5 +36,6 @@ class BukuSeeder extends Seeder
             ],
             // Tambahkan data lainnya sesuai kebutuhan
         ];
+        DB::table('buku')->insert($data);
     }
 }
