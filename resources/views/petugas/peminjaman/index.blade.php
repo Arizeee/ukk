@@ -116,9 +116,9 @@
                         @if ($item->status_peminjaman == 'Dikembalikan')
                         <button class="btn btn-secondary" data-bs-toggle="modal" disabled data-bs-target="#approveModal{{ $item->id }}">Approve</button>
                         <button class="btn btn-danger" data-bs-toggle="modal" disabled data-bs-target="#deleteModal{{ $item->id }}">Decline</button>
-                        @else
+                        @elseif($item->status_peminjaman == 'Dipinjam')
                         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#approveModal{{ $item->id }}">Approve</button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">Decline</button>
+                        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">Penalty</button>
                         @endif
                       
                       </div>
