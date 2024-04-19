@@ -57,7 +57,16 @@
                                         <i class="bi bi-book-half"></i>
                                         menunggu approval
                                     </button>
-                                @else
+                                    @elseif ($status->contains('status_tunggu', 'idle') && $status->contains('status_peminjaman', 'Dipinjam'))
+                                    <button disabled class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="submit">
+                                        <i class="bi bi-book-half"></i>
+                                        peminjaman telah di approve
+                                    </button>
+                                    <button class="btn btn-primary flex-shrink-0 btn-lg mx-4 mt-3" type="submit">
+                                        <i class="bi bi-book-half"></i>
+                                        Minta Pengembalian
+                                    </button>
+                                @else   
                                 <button class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="submit">
                                     <i class="bi bi-book-half"></i>
                                     Pinjam

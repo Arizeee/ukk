@@ -37,8 +37,8 @@ class PeminjamanController extends Controller
         $peminjaman = Peminjaman::create([
             'user_id' => $user->id,
             'buku_id' => $buku->id,
-            'tanggal_peminjaman' => now(),
-            'tanggal_pengembalian' => now()->addDays(14), // Contoh: 14 hari batas peminjaman
+            // 'tanggal_peminjaman' => now(),
+            // 'tanggal_pengembalian' => now()->addDays(14), // Contoh: 14 hari batas peminjaman
             // 'status_peminjaman' => 'Dipinjam',
             'status_tunggu' => 'tunggu'
         ]);

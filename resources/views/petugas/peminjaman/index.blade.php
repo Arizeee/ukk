@@ -113,8 +113,13 @@
                     </td>
                       <td class="p-2  align-middle items-center  bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                       <div class="flex justify-evenly">
-                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#updateModal{{ $item->id }}">Approve</button>
+                        @if ($item->status_peminjaman == 'Dikembalikan')
+                        <button class="btn btn-secondary" data-bs-toggle="modal" disabled data-bs-target="#approveModal{{ $item->id }}">Approve</button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" disabled data-bs-target="#deleteModal{{ $item->id }}">Decline</button>
+                        @else
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#approveModal{{ $item->id }}">Approve</button>
                         <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">Decline</button>
+                        @endif
                       
                       </div>
                       </td>
@@ -132,7 +137,7 @@
     <!-- card 2 -->
   </div>
   {{-- @include('admin.user.edit') --}}
-  {{-- @include('admin.peminjaman.create') --}}
+  @include('petugas.peminjaman.approve')
   {{-- @include('admin.user.delete') --}}
 </main>
 @endsection

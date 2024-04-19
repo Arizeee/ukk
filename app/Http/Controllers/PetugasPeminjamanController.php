@@ -92,4 +92,18 @@ class PetugasPeminjamanController extends Controller
     {
         return (new PeminjamanExport)->download('peminjaman-'.Carbon::now()->timestamp.'.xlsx');
     }
+    public function approve(Request $request, string $id)
+    {
+        // $request->validate([
+        //     'nama_kategori' => 'required|unique:tanggal_kembali,tanggal_peminjaman,' . $id
+        // ]);
+
+        $kategori = Peminjaman::findOrFail($id);
+
+        // dd($request->all());
+        $kategori->update($request->all());
+
+        return redirect()->route('petugas.peminjaman.index')
+            ->with('success', 'Kategori berhasil di approve.');
+    }
 }

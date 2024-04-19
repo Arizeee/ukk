@@ -6,7 +6,7 @@
         <div class="nav__menu">
             <ul class="nav__list">
                 <li class="nav__item">
-                    <a href="{{ url('/') }}" class="nav__link active-link">
+                    <a href="{{ url('/') }}" class="nav__link">
                         <i class="ri-home-line"></i>
                         <span>
                             Home
@@ -40,7 +40,7 @@
                     <a href="{{ url('/koleksi') }}" class="nav__link">
                         <i class="ri-bookmark-line"></i>
                         <span>
-                            Koleksi
+                            History
                         </span>
                     </a>
                 </li>
