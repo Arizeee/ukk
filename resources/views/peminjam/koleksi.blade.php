@@ -147,33 +147,38 @@
                 <div class="featured__swiper ">
                     <div class="column">
                         @forelse($collection->sortByDesc('created_at') as $item)
-                        <article class="featured__card swiper-slide">
-                            <img src="{{ asset('storage/buku/' . $item->buku->sampul) }}" alt="" class="featured__img">
-                            <h2 class="featured__title">
-                                {{ $item->buku->judul }}
-                            </h2>
-                            <h2 class="featured__title">
-                                {{ $item->buku->penulis }}
-                            </h2>
-                            <div class="featured__prices">
-                                <span class="featured__discount">
-                                    {{ $item->buku->penerbit }}
-                                </span>
-                                <span class="featured__discount">
-                                    {{ $item->buku->tahun_terbit }}
-                                </span>
-                               
-                            </div>
-                            <button class="button" data-bs-toggle="modal"
-                            data-bs-target="#ModalBuku_{{ $item->id }}" type="button">
-                            Detail
-                        </button>
-                            <div class="featured__actions">
-                                <button><i class="ri-search-line"></i></button>
-                                <button><i class="ri-heart-fill"></i></button>
-                                <button><i class="ri-eye-line"></i></button>
-                            </div>
-                        </article>
+                        {{-- @if ($item->buku->status_tunggu !== 'tunggu')  --}}
+                            <article class="featured__card swiper-slide">
+                                <img src="{{ asset('storage/buku/' . $item->buku->sampul) }}" alt="" class="featured__img">
+                                <h2 class="featured__title">
+                                    {{ $item->buku->judul }}
+                                </h2>
+                                <h2 class="featured__title">
+                                    {{ $item->buku->penulis }}
+                                </h2>
+                                <div class="featured__prices">
+                                    <span class="featured__discount">
+                                        {{ $item->buku->penerbit }}
+                                    </span>
+                                    <span class="featured__discount">
+                                        {{ $item->buku->tahun_terbit }}
+                                    </span>
+                                    <span class="featured__discount">
+                                        {{ $item->peminjaman->status_peminjaman }}
+                                    </span>
+                                   
+                                </div>
+                                <button class="button" data-bs-toggle="modal"
+                                data-bs-target="#ModalBuku_{{ $item->id }}" type="button">
+                                Detail
+                            </button>
+                                <div class="featured__actions">
+                                    <button><i class="ri-search-line"></i></button>
+                                    <button><i class="ri-heart-fill"></i></button>
+                                    <button><i class="ri-eye-line"></i></button>
+                                </div>
+                            </article>
+                        {{-- @endif --}}
                         @empty
                             <p>No featured books available</p>
                         @endforelse
@@ -207,7 +212,7 @@
                             </div>
                         </div>
 
-                        @if ($item->peminjaman->status_peminjaman == 'Dipinjam')
+                        @if ($item->peminjaman->status_peminjaman == 'Dipinjam' && $item->peminjaman->status_tunggu == "idle")
                         <!-- Form for Ulasan dan Rating -->
                         <form action="{{ route('pengembalian.buku', ['id' => $item->peminjaman->id]) }}" method="POST">
                             @csrf
@@ -236,9 +241,15 @@
                                 @enderror
                             </div>
                             <div class="mt-3 text-right">
-                                <button type="submit" class="btn btn-success">Pengembalian</button>
+                                <button type="submit" class="btn btn-success">Kembalikan & beri rating</button>
                             </div>
                         </form>
+                        @elseif ($item->peminjaman->status_peminjaman == 'Dipinjam' && $item->peminjaman->status_tunggu == "pengembalian")
+                        <p class="card-text"><strong>Status peminjaman : Menunggu Di Approve oleh petugas</strong></p>
+                        <button class="btn btn-outline-dark flex-shrink-0 btn-lg" type="button"
+                            data-bs-dismiss="modal">
+                            Tutup
+                        </button>
                         @else
                         <!-- Informasi peminjaman -->
                         <p class="card-text"><strong>Tanggal Peminjaman:</strong>

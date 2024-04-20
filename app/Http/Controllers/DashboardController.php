@@ -16,29 +16,29 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function showUserForm()
-{
-    $buku = Buku::paginate(12);
-    $kategori = Kategori::all();
-    $ulasan = Ulasan::all();
-    
-    if ($buku->isEmpty()) {
-        $buku = null; 
-    }
+    {
+        $buku = Buku::paginate(12);
+        $kategori = Kategori::all();
+        $ulasan = Ulasan::all();
 
-    return view('peminjam.dashboard', compact('buku', 'kategori', 'ulasan'));
-}
+        if ($buku->isEmpty()) {
+            $buku = null;
+        }
+
+        return view('peminjam.dashboard', compact('buku', 'kategori', 'ulasan'));
+    }
 
     public function showBooksByCategory($category)
     {
         $kategori = Kategori::all();
-        $buku = Buku::whereHas('kategori', function($query) use ($category) {
+        $buku = Buku::whereHas('kategori', function ($query) use ($category) {
             $query->where('nama_kategori', $category);
         })->paginate(12);
-    
+
         if ($buku->isEmpty()) {
-            $buku = null; 
+            $buku = null;
         }
-    
+
         return view('peminjam.dashboard', compact('buku', 'kategori'));
     }
 
@@ -49,25 +49,38 @@ class DashboardController extends Controller
         $buku = Buku::where('judul', 'LIKE', "%$query%")->paginate(12);
 
         if ($buku->isEmpty()) {
-            $buku = null; 
+            $buku = null;
         }
-        
+
         return view('peminjam.dashboard', compact('buku', 'kategori'));
     }
 
     public function show($id)
     {
         $user = Auth::user();
-        $buku = Buku::findOrfail($id);
+        $buku = Buku::findOrFail($id);
         $kategori = Kategori::all();
         $userId = Auth::user()->id;
-        $status = Peminjaman::where('buku_id', $id)->get();
+
+        $status_tunggu = Peminjaman::where('buku_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+
+
+        // Jika $status null, maka set nilai default
+        $status = $status_tunggu ? $status_tunggu : $status_tunggu = $status_tunggu = Peminjaman::where('buku_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->first();;;
 
         $ulasan = $buku->ulasan;
 
         // dd($status);
+
         return view('peminjam.show', compact('buku', 'kategori', 'ulasan', 'status'));
     }
+
+
 
     public function addComment(Request $request, $id)
     {
@@ -132,5 +145,4 @@ class DashboardController extends Controller
 
         return redirect()->route('peminjam.show', ['id' => $buku_id])->with('success', 'Komentar berhasil dihapus!');
     }
-
 }

@@ -69,6 +69,10 @@
                                                     <div class="alert alert-success" role="alert">
                                                         Dikembalikan
                                                     </div>
+                                                @elseif ($item->status_peminjaman == '')
+                                                    <div class="alert alert-success" role="alert">
+                                                        menunggu di approve
+                                                    </div>
                                                 @endif
                                             </td>
                                         </tr>

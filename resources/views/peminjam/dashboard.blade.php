@@ -108,17 +108,15 @@
     <section class="discount section" id="category">
         <div class="discount__container container grid">
             <div class="discount__data">
-                <h2 class="discount__title section__title">
+                <h2 class="discount__title section__title">zz   
                     Pinjam buku berkualitas di Ebooks
                 </h2>
                 <p class="discount__description">
                     Temukan dunia baru dalam setiap halaman. Mulailah petualanganmu dengan peminjaman buku kami!
                 </p>
             </div>
-
             <div class="discount__images">
-                <img src="{{ asset('front/landing/assets/img/discount-book-1.png') }}" alt="img" class="discount__img-1">
-                <img src="{{ asset('front/landing/assets/img/discount-book-1.png') }}" alt="img" class="discount__img-2">
+                <img src="https://www.pngkey.com/png/detail/959-9590612_cover-book-cover.png" alt="Cover - Book Cover@pngkey.com">
             </div>
         </div>
     </section>
