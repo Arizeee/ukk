@@ -31,6 +31,7 @@ class BukuController extends Controller
             'sampul' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'penulis' => 'required',
             'penerbit' => 'required',
+            'stock' => 'required',
             'tahun_terbit' => 'required|numeric',
             'kategori_id' => 'required',
         ]);
@@ -44,6 +45,7 @@ class BukuController extends Controller
             'sampul' => $sampul_name,
             'penulis' => $request->get('penulis'),
             'penerbit' => $request->get('penerbit'),
+            'stock' => $request->get('stock'),
             'tahun_terbit' => $request->get('tahun_terbit'),
             'kategori_id' => $request->get('kategori_id'),
         ]);
@@ -79,6 +81,7 @@ class BukuController extends Controller
             'judul' => 'required',
             'penulis' => 'required',
             'penerbit' => 'required',
+            'stock' => 'required',
             'tahun_terbit' => 'required|integer',
             'kategori_id' => 'required|exists:kategori,id',
         ]);
@@ -87,6 +90,7 @@ class BukuController extends Controller
         $buku->judul = $request->judul;
         $buku->penulis = $request->penulis;
         $buku->penerbit = $request->penerbit;
+        $buku->stock = $request->stock;
         $buku->tahun_terbit = $request->tahun_terbit;
         $buku->kategori_id = $request->kategori_id;
 
