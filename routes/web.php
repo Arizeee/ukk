@@ -143,6 +143,8 @@ Route::middleware(['auth', 'UserAccess:peminjam'])->group(function () {
     Route::post('/pengajuan/pengembalian/{id}', [PetugasPengembalianController::class, 'ajukanpengembalian'])->name('ajukan.pengembalian.buku');
     Route::get('/koleksi', [KoleksiController::class, 'index'])->name('koleksi.index');
     Route::get('/favorite', [KoleksiController::class, 'index'])->name('favorite.index');
+
+    Route::post('/favorite/{id}', [KoleksiController::class, 'addFavorite'])->name('addFavorite');
 });
 
 Route::middleware(['auth'])->group(function () {

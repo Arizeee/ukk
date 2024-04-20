@@ -33,7 +33,10 @@
                                     <a href="{{ route('peminjam.show', ['id' => $item->id]) }}">Lihat Buku</a>
                                 </button>
                                 <div class="featured__actions">
-                                    <button><i class="ri-heart-fill"></i></button>
+                                    <form action="{{ route('addFavorite', $item->id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit"><i class="ri-heart-fill"></i></button>
+                                    </form>
                                     <button><i class="ri-eye-line"></i></button>
                                 </div>
                             </article>
