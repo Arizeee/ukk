@@ -1,7 +1,7 @@
 <header class="header" id="header">
     <nav class="nav container">
         <a href="" class="nav__logo">
-            <i class="ri-book-3-line">E-Books</i>
+            <i class="ri-book-3-line">Bravest</i>
         </a>
         <div class="nav__menu">
             <ul class="nav__list">
@@ -51,10 +51,10 @@
             @auth
                 <!-- authenticated actions -->
                 <a href="{{ route('profile.index') }}"><i class="ri-user-line login-button" id="login-button"></i></a>
-                <a href="{{ route('logout') }}"><i class="ri-logout-box-r-line"></i></a>
+                <a href="{{ route('logout') }}"><i class="ri-logout-box-line"></i></a>
             @else
                 <!-- unauthenticated actions -->
-                <a href="{{ route('login') }}"><i class="ri-login-box-line" id="login-button"></i></a>
+                <a href="{{ route('login') }}"><i class="ri-logout-box-r-fill" id="login-button"></i></a>
                 <a href="{{ route('register') }}"><i class="ri-user-add-fill"></i></a>
             @endauth
             <!-- theme button -->

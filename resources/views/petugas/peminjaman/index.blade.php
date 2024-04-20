@@ -113,12 +113,15 @@
                     </td>
                       <td class="p-2  align-middle items-center  bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                       <div class="flex justify-evenly">
-                        @if ($item->status_peminjaman == 'Dikembalikan')
-                        <button class="btn btn-secondary" data-bs-toggle="modal" disabled data-bs-target="#approveModal{{ $item->id }}">Approve</button>
-                        <button class="btn btn-danger" data-bs-toggle="modal" disabled data-bs-target="#deleteModal{{ $item->id }}">Decline</button>
+                        @if ($item->status_peminjaman == '')
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#approveModal{{ $item->id }}">Approve</button>
+                        <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">Decline</button>
                         @elseif($item->status_peminjaman == 'Dipinjam')
                         <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#approveModal{{ $item->id }}">Approve</button>
                         <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $item->id }}">Penalty</button>
+                        @elseif($item->status_peminjaman == 'Dikembalikan')
+                        <button class="btn btn-secondary" data-bs-toggle="modal" disabled data-bs-target="#approveModal{{ $item->id }}">Approve</button>
+                        <button class="btn btn-warning" data-bs-toggle="modal" disabled data-bs-target="#deleteModal{{ $item->id }}">Penalty</button>
                         @endif
                       
                       </div>

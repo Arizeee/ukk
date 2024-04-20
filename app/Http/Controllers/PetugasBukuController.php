@@ -21,10 +21,11 @@ class PetugasBukuController extends Controller
 {
     public function index()
     {
-        $buku = Buku::paginate(10);
-        $kategori = Kategori::all(); // Mendapatkan semua kategori
-        return view('petugas.buku.index', compact('buku', 'kategori')); 
+        $buku = Buku::orderBy('created_at', 'desc')->paginate(10);
+        $kategori = Kategori::all();
+        return view('petugas.buku.index', compact('buku', 'kategori'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -49,6 +50,8 @@ class PetugasBukuController extends Controller
             'kategori_id' => 'required',
         ]);
 
+        // dd($request->all());
+
         $sampul = $request->file('sampul');
         $sampul_name = Str::random(20) . '.' . $sampul->getClientOriginalExtension();
         $sampul->storeAs('public/buku', $sampul_name);
@@ -61,6 +64,7 @@ class PetugasBukuController extends Controller
             'tahun_terbit' => $request->get('tahun_terbit'),
             'kategori_id' => $request->get('kategori_id'),
         ]);
+
         $buku->save();
 
         return redirect('/petugas/buku')->with('success', 'Buku berhasil ditambahkan');
@@ -109,7 +113,7 @@ class PetugasBukuController extends Controller
                 Storage::delete('public/buku/' . $buku->sampul);
             }
             $file = $request->file('sampul');
-            $filename = time().'.'.$file->getClientOriginalExtension();
+            $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/buku', $filename);
             $buku->sampul = $filename;
         }
@@ -123,14 +127,14 @@ class PetugasBukuController extends Controller
     {
         $query = $request->input('q');
         $buku = Buku::where('judul', 'LIKE', "%$query%")
-                    ->orWhere('penulis', 'LIKE', "%$query%")
-                    ->orWhere('penerbit', 'LIKE', "%$query%")
-                    ->orWhere('tahun_terbit', 'LIKE', "%$query%")
-                    ->orWhereHas('kategori', function($q) use ($query) {
-                        $q->where('nama_kategori', 'LIKE', "%$query%");
-                    })
-                    ->paginate(10);
-        
+            ->orWhere('penulis', 'LIKE', "%$query%")
+            ->orWhere('penerbit', 'LIKE', "%$query%")
+            ->orWhere('tahun_terbit', 'LIKE', "%$query%")
+            ->orWhereHas('kategori', function ($q) use ($query) {
+                $q->where('nama_kategori', 'LIKE', "%$query%");
+            })
+            ->paginate(10);
+
         if ($buku->isEmpty()) {
             return redirect()->route('petugas.buku.index')->with('error', 'Buku tidak ditemukan.');
         }
@@ -139,18 +143,18 @@ class PetugasBukuController extends Controller
     }
 
     public function exportPdf()
-    {        
+    {
         $buku = Buku::all();
         $pdf = Pdf::loadView('pdf.export-buku', ['buku' => $buku])->setOption(['defaultFont' => 'sans-serif']);
         // Membuat nama file PDF dengan waktu saat ini
         $fileName = 'export-buku-' . Date::now()->format('Y-m-d_H-i-s') . '.pdf';
-        
+
         return $pdf->download($fileName);
     }
 
     public function exportExcel()
     {
-        return (new BukuExport)->download('buku-'.Carbon::now()->timestamp.'.xlsx');
+        return (new BukuExport)->download('buku-' . Carbon::now()->timestamp . '.xlsx');
     }
 
     /**
@@ -159,7 +163,7 @@ class PetugasBukuController extends Controller
     public function destroy(string $id)
     {
         $buku = Buku::find($id);
-        Storage::delete('public/buku/'.$buku->sampul);
+        Storage::delete('public/buku/' . $buku->sampul);
         $buku->delete();
 
         return redirect('/petugas/buku')->with('success', 'Buku berhasil dihapus');

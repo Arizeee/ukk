@@ -64,7 +64,12 @@
                                     </button>
                                     <button class="btn btn-primary flex-shrink-0 btn-lg mx-4 mt-3" type="submit">
                                         <i class="bi bi-book-half"></i>
-                                        Minta Pengembalian
+                                        Ajukan Pengembalian
+                                    </button>
+                                    @elseif($status->contains('status_tunggu', 'pengembalian'))
+                                    <button disabled class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="submit">
+                                        <i class="bi bi-book-half"></i>
+                                        menunggu approval pengembalian
                                     </button>
                                 @else   
                                 <button class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="submit">

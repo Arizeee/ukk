@@ -1,72 +1,131 @@
 @extends('layout.landing.template')
 
 @section('content')
-<section class="featured section" id="featured">
-    <h2 class="section__title">
-        Featured Books
-    </h2>
-    <div class="featured__container container">
-        <div class="featured__swiper swiper">
-            <div class="swiper-wrapper">
-                @if (is_null($buku))
-                <div class="col mb-5 mt-5">
-                    <div class="alert alert-warning text-center" role="alert">
-                        Buku tidak tersedia.
+@auth
+    @foreach ($kategori as $data) 
+        <section class="featured section" id="featured">
+            <h2 class="section__title">
+                Category {{ $data->nama_kategori }}
+            </h2>
+            <div class="featured__container container">
+                <div class="featured__swiper swiper">
+                    <div class="swiper-wrapper">
+                        @if (is_null($buku))
+                        <div class="col mb-5 mt-5">
+                            <div class="alert alert-warning text-center" role="alert">
+                                Buku tidak tersedia.
+                            </div>
+                        </div>
+                        @else
+                        @foreach ($buku->sortByDesc('created_at') as $item)
+                        @if ($data->id === $item->kategori_id) 
+                            <article class="featured__card swiper-slide">
+                                <img src="{{ asset('storage/buku/' . $item->sampul) }}" alt="" class="featured__img">
+                                <h2 class="featured__title">
+                                    {{ $item->judul }}
+                                </h2>
+                                <div class="featured__prices">
+                                    <span class="featured__discount">
+                                        {{ $item->penulis }}
+                                    </span>
+                                </div>
+                                <button class="button">
+                                    <a href="{{ route('peminjam.show', ['id' => $item->id]) }}">Lihat Buku</a>
+                                </button>
+                                <div class="featured__actions">
+                                    <button><i class="ri-heart-fill"></i></button>
+                                    <button><i class="ri-eye-line"></i></button>
+                                </div>
+                            </article>
+                        @endif
+                        @endforeach
+                    </div>
+                    <div class="swiper-button-prev">
+                        <i class="ri-arrow-left-s-line"></i>
+                    </div>
+                    <div class="swiper-button-next">
+                        <i class="ri-arrow-right-s-line"></i>
                     </div>
                 </div>
-                @else
-                @foreach ($buku->sortByDesc('created_at') as $item)
-                <article class="featured__card swiper-slide">
-                    <img src="{{ asset('storage/buku/' . $item->sampul) }}" alt="" class="featured__img">
-                    <h2 class="featured__title">
-                        {{ $item->judul }}
-                    </h2>
-                    <div class="featured__prices">
-                        <span class="featured__discount">
-                            {{ $item->penulis }}
-                        </span>
-                    </div>
-                    <button class="button">
-                        <a href="{{ route('peminjam.show', ['id' => $item->id]) }}">Lihat Buku</a>
-                    </button>
-                    <div class="featured__actions">
-                        <button><i class="ri-heart-fill"></i></button>
-                        <button><i class="ri-eye-line"></i></button>
-                    </div>
-                </article>
-                @endforeach
             </div>
-            <div class="swiper-button-prev">
-                <i class="ri-arrow-left-s-line"></i>
-            </div>
-            <div class="swiper-button-next">
-                <i class="ri-arrow-right-s-line"></i>
-            </div>
-        </div>
-    </div>
-    @endif
-</section>
+            @endif
+        </section>
+    @endforeach
+@endauth
+
+
 
 <!--==================== DISCOUNT ====================-->
-<section class="discount section" id="category">
-    <div class="discount__container container grid">
-        <div class="discount__data">
-            <h2 class="discount__title section__title">
-                Pinjam buku berkualitas di Ebooks
-            </h2>
-            <p class="discount__description">
-                Temukan dunia baru dalam setiap halaman. Mulailah petualanganmu dengan peminjaman buku kami!
-            </p>
+@guest
+    <section class="featured section" id="featured">
+        <h2 class="section__title">
+            Featured Books
+        </h2>
+        <div class="featured__container container">
+            <div class="featured__swiper swiper">
+                <div class="swiper-wrapper">
+                    @if (is_null($buku))
+                    <div class="col mb-5 mt-5">
+                        <div class="alert alert-warning text-center" role="alert">
+                            Buku tidak tersedia.
+                        </div>
+                    </div>
+                    @else
+                    @foreach ($buku->sortByDesc('created_at') as $item)
+                    
+                        <article class="featured__card swiper-slide">
+                            <img src="{{ asset('storage/buku/' . $item->sampul) }}" alt="" class="featured__img">
+                            <h2 class="featured__title">
+                                {{ $item->judul }}
+                            </h2>
+                            <div class="featured__prices">
+                                <span class="featured__discount">
+                                    {{ $item->penulis }}
+                                </span>
+                            </div>
+                            <button class="button">
+                                <a href="{{ route('peminjam.show', ['id' => $item->id]) }}">Lihat Buku</a>
+                            </button>
+                            <div class="featured__actions">
+                                <button><i class="ri-heart-fill"></i></button>
+                                <button><i class="ri-eye-line"></i></button>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+                <div class="swiper-button-prev">
+                    <i class="ri-arrow-left-s-line"></i>
+                </div>
+                <div class="swiper-button-next">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
         </div>
+        @endif
+    </section>
 
-        <div class="discount__images">
-            <img src="{{ asset('front/landing/assets/img/discount-book-1.png') }}" alt="img" class="discount__img-1">
-            <img src="{{ asset('front/landing/assets/img/discount-book-1.png') }}" alt="img" class="discount__img-2">
+
+    <section class="discount section" id="category">
+        <div class="discount__container container grid">
+            <div class="discount__data">
+                <h2 class="discount__title section__title">
+                    Pinjam buku berkualitas di Ebooks
+                </h2>
+                <p class="discount__description">
+                    Temukan dunia baru dalam setiap halaman. Mulailah petualanganmu dengan peminjaman buku kami!
+                </p>
+            </div>
+
+            <div class="discount__images">
+                <img src="{{ asset('front/landing/assets/img/discount-book-1.png') }}" alt="img" class="discount__img-1">
+                <img src="{{ asset('front/landing/assets/img/discount-book-1.png') }}" alt="img" class="discount__img-2">
+            </div>
         </div>
-    </div>
-</section>
+    </section>
+@endguest
 
-<section class="testimonial section" id="testimonial">
+
+{{-- <section class="testimonial section" id="testimonial">
     <h2 class="section__title">
         Customer options
     </h2>
@@ -104,5 +163,5 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 @endsection
