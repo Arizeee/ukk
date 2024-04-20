@@ -17,7 +17,7 @@ class KoleksiSeeder extends Seeder
             [
                 'user_id' => 1, // Ganti dengan ID user yang sesuai
                 'buku_id' => 1, // Ganti dengan ID buku yang sesuai
-                'peminjaman_id' => 1, // Ganti dengan ID peminjaman yang sesuai
+                'peminjaman_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

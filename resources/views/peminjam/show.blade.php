@@ -27,6 +27,7 @@
                     <h1 class="lead fs-3">Tahun Terbit: {{ $buku->tahun_terbit }}</h1>
                     <h1 class="lead fs-3">Penulis: {{ $buku->penulis }}</h1>
                     <h1 class="lead fs-3">Penerbit: {{ $buku->penerbit }}</h1>
+                    <h1 class="lead fs-3">Jumlah Stock: {{ $buku->stock }}</h1>
                     <div class="lead rate mt-2">
                         @php
                             $ratingValue = $buku->ulasan->avg('rating'); // Dapatkan nilai rating dari database

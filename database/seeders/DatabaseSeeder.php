@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             KategoriSeeder::class,
             BukuSeeder::class,
-            PeminjamanSeeder::class,
-            KoleksiSeeder::class,
-            UlasanSeeder::class,
+            // PeminjamanSeeder::class,
+            // KoleksiSeeder::class,
+            // UlasanSeeder::class,
         ]);
     }
 }

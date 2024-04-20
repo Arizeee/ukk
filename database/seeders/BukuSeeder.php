@@ -16,10 +16,10 @@ class BukuSeeder extends Seeder
         $data = [
             [
                 'judul' => 'Judul Buku Pertama',
-                'sampul' => 'sampul_buku_pertama.jpg',
+                'sampul' => 'kuT1mKxky6V71vNy8EcO.jpg',
                 'penulis' => 'Penulis Pertama',
                 'penerbit' => 'Penerbit Pertama',
-                'stockd' => 5,
+                'stock' => 5,
                 'tahun_terbit' => 2020,
                 'kategori_id' => 1, // Ganti dengan ID kategori yang sesuai
                 'created_at' => now(),
@@ -27,10 +27,10 @@ class BukuSeeder extends Seeder
             ],
             [
                 'judul' => 'Judul Buku Kedua',
-                'sampul' => 'sampul_buku_kedua.jpg',
+                'sampul' => 'kuT1mKxky6V71vNy8EcO.jpg',
                 'penulis' => 'Penulis Kedua',
                 'penerbit' => 'Penerbit Kedua',
-                'stockd' => 5,
+                'stock' => 5,
                 'tahun_terbit' => 2021,
                 'kategori_id' => 2, // Ganti dengan ID kategori yang sesuai
                 'created_at' => now(),
