@@ -18,9 +18,8 @@ class KoleksiController extends Controller
 {
     public function index()
     {
-        $koleksi = Koleksi::all();
+        $koleksi = Koleksi::with(['user','buku'])->get();
 
-        dd($koleksi);
         return view('peminjam.koleksi', ['data' => $koleksi]);
     }
 

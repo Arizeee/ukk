@@ -141,12 +141,12 @@
         </div>
         <section class="featured section" id="featured">
             <h2 class="section__title">
-                Featured Books
+                Favorite Books
             </h2>
             <div class="featured__container container">
                 <div class="featured__swiper ">
                     <div class="column">
-                        @forelse($collection->sortByDesc('created_at') as $item)
+                        @forelse($data->sortByDesc('created_at') as $item)
                         {{-- @if ($item->buku->status_tunggu !== 'tunggu')  --}}
                             <article class="featured__card swiper-slide">
                                 <img src="{{ asset('storage/buku/' . $item->buku->sampul) }}" alt="" class="featured__img">
@@ -186,7 +186,7 @@
                 </div>
             </div>
         </section>
-        @foreach($collection->sortByDesc('created_at') as $item)
+        @foreach($data->sortByDesc('created_at') as $item)
         <div class="modal fade" id="ModalBuku_{{ $item->id }}" tabindex="-1" aria-labelledby="ModalBukuLabel"
             aria-hidden="true">
             <div class="modal-dialog">
