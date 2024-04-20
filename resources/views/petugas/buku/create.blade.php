@@ -23,6 +23,10 @@
               <input type="text" class="form-control" id="penerbit" name="penerbit" required>
             </div>
             <div class="mb-3">
+              <label for="stock" class="form-label">Stock</label>
+              <input type="text" class="form-control" id="stock" name="stock" required>
+            </div>
+            <div class="mb-3">
               <label for="tahun_terbit" class="form-label">Tahun Terbit</label>
               <input type="text" class="form-control" id="tahun_terbit" name="tahun_terbit" required>
             </div>

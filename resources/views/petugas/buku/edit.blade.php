@@ -34,6 +34,10 @@
             <input type="text" class="form-control" id="penerbit" name="penerbit" value="{{ $item->penerbit }}" required>
           </div>
           <div class="mb-3">
+            <label for="stock" class="form-label">Stock</label>
+            <input type="text" class="form-control" id="stock" name="stock" value="{{ $item->stock }}" required>
+          </div>
+          <div class="mb-3">
             <label for="tahun_terbit" class="form-label">Tahun Terbit</label>
             <input type="text" class="form-control" id="tahun_terbit" name="tahun_terbit" value="{{ $item->tahun_terbit }}" required>
           </div>
