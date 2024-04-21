@@ -73,7 +73,9 @@ class PetugasPeminjamanController extends Controller
     public function index()
     {
         // Ambil data peminjaman untuk ditampilkan di halaman index
-        $peminjaman = Peminjaman::paginate(10);
+        $peminjaman = Peminjaman::orderBy('updated_at', 'desc')->get();
+
+        // dd($peminjaman);
 
         return view('petugas.peminjaman.index', compact('peminjaman'));
     }
@@ -102,6 +104,12 @@ class PetugasPeminjamanController extends Controller
 
         // dd($request->all());
         $kategori->update($request->all());
+        
+        $koleksi = Koleksi::where('peminjaman_id', $id)->first();
+
+        $koleksi->update([
+            'updated_at' => now(),
+        ]);
 
         return redirect()->route('petugas.peminjaman.index')
             ->with('success', 'Kategori berhasil di approve.');
@@ -114,9 +122,15 @@ class PetugasPeminjamanController extends Controller
 
         $kategori = Peminjaman::findOrFail($id);
 
-        // dd($request->all());
         $kategori->update($request->all());
+        $koleksi = Koleksi::where('peminjaman_id', $id)->first();
 
+        
+        $koleksi->update([
+            'updated_at' => now(),
+        ]);
+        
+        // dd($request->all());
         return redirect()->route('petugas.pengembalian.index')
             ->with('success', 'Kategori berhasil di approve.');
     }

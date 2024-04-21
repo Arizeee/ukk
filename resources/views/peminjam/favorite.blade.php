@@ -163,10 +163,15 @@
                                         </span>
 
                                     </div>
-                                    <button class="button" data-bs-toggle="modal"
+                                    {{-- <button class="button" data-bs-toggle="modal"
                                         data-bs-target="#ModalBuku_{{ $item->id }}" type="button">
                                         Detail
-                                    </button>
+                                    </button> --}}
+                                    <a href="/show/{{ $item->buku_id }}">
+                                        <button class="button" data-bs-toggle="modal" type="button">
+                                            Detail
+                                        </button>
+                                    </a>
                                     <div class="featured__actions">
                                         <button><i class="ri-search-line"></i></button>
                                         <button><i class="ri-heart-fill"></i></button>
@@ -207,44 +212,43 @@
                                     </div>
                                 </div>
 
-                             
-                                    <!-- Form for Ulasan dan Rating -->
-                                    <form action="{{ route('pengembalian.buku', ['id' => $item->id]) }}"
-                                        method="POST">
-                                        @csrf
-                                        <input type="hidden" name="booking_id" value="{{ $item->id }}">
-                                        <div class="form-group">
-                                            <div class="rate">
-                                                <input type="radio" id="star5_{{ $item->id }}" class="rate"
-                                                    name="rating" value="5" />
-                                                <label for="star5_{{ $item->id }}" title="5 stars">5 stars</label>
-                                                <input type="radio" id="star4_{{ $item->id }}" class="rate"
-                                                    name="rating" value="4" />
-                                                <label for="star4_{{ $item->id }}" title="4 stars">4 stars</label>
-                                                <input type="radio" id="star3_{{ $item->id }}" class="rate"
-                                                    name="rating" value="3" />
-                                                <label for="star3_{{ $item->id }}" title="3 stars">3 stars</label>
-                                                <input type="radio" id="star2_{{ $item->id }}" class="rate"
-                                                    name="rating" value="2">
-                                                <label for="star2_{{ $item->id }}" title="2 stars">2 stars</label>
-                                                <input type="radio" id="star1_{{ $item->id }}" class="rate"
-                                                    name="rating" value="1" />
-                                                <label for="star1_{{ $item->id }}" title="1 star">1 star</label>
-                                            </div>
-                                            @error('rating')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
+
+                                <!-- Form for Ulasan dan Rating -->
+                                <form action="{{ route('pengembalian.buku', ['id' => $item->id]) }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="booking_id" value="{{ $item->id }}">
+                                    <div class="form-group">
+                                        <div class="rate">
+                                            <input type="radio" id="star5_{{ $item->id }}" class="rate"
+                                                name="rating" value="5" />
+                                            <label for="star5_{{ $item->id }}" title="5 stars">5 stars</label>
+                                            <input type="radio" id="star4_{{ $item->id }}" class="rate"
+                                                name="rating" value="4" />
+                                            <label for="star4_{{ $item->id }}" title="4 stars">4 stars</label>
+                                            <input type="radio" id="star3_{{ $item->id }}" class="rate"
+                                                name="rating" value="3" />
+                                            <label for="star3_{{ $item->id }}" title="3 stars">3 stars</label>
+                                            <input type="radio" id="star2_{{ $item->id }}" class="rate"
+                                                name="rating" value="2">
+                                            <label for="star2_{{ $item->id }}" title="2 stars">2 stars</label>
+                                            <input type="radio" id="star1_{{ $item->id }}" class="rate"
+                                                name="rating" value="1" />
+                                            <label for="star1_{{ $item->id }}" title="1 star">1 star</label>
                                         </div>
-                                        <div class="form-group">
-                                            <textarea class="form-control" name="comment" rows="6" placeholder="Comment" maxlength="200"></textarea>
-                                            @error('comment')
-                                                <div class="alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                        <div class="mt-3 text-right">
-                                            <button type="submit" class="btn btn-success">Pengembalian</button>
-                                        </div>
-                                    </form>
+                                        @error('rating')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea class="form-control" name="comment" rows="6" placeholder="Comment" maxlength="200"></textarea>
+                                        @error('comment')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="mt-3 text-right">
+                                        <button type="submit" class="btn btn-success">Pengembalian</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -154,4 +154,3 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/comment/{id}/update', [DashboardController::class, 'updateComment'])->name('comment.update');
     Route::delete('/comment/{id}/delete', [DashboardController::class, 'deleteComment'])->name('comment.delete');
 });
-

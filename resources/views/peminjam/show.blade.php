@@ -60,12 +60,15 @@
                                     </button>
                                 </form>
                             @elseif (isset($status) && $status->status_tunggu === 'idle' && $status->status_peminjaman === 'Dipinjam')
-                                <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST" class="d-flex">
+                                <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST" class="">
                                     @csrf
                                     <button disabled class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="submit">
                                         <i class="bi bi-book-half"></i>
                                         peminjaman telah di approve
                                     </button> 
+                                    <div class="">
+                                        <span>Penting! Harap Kembalikan Tepat Waktu jika tidak akan dikenakan denda Rp.5000 Perhari</span>
+                                    </div>
                                 </form>
                                 {{-- <form action="{{ route('ajukan.pengembalian.buku', ['id' => $status->id]) }}" method="POST"
                                     class="d-flex mx-4">

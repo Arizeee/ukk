@@ -157,12 +157,12 @@
                                     {{ $item->buku->penulis }}
                                 </h2>
                                 <div class="featured__prices">
-                                    <span class="featured__discount">
+                                    {{-- <span class="featured__discount">
                                         {{ $item->buku->penerbit }}
                                     </span>
                                     <span class="featured__discount">
                                         {{ $item->buku->tahun_terbit }}
-                                    </span>
+                                    </span> --}}
                                     <span class="featured__discount">
                                         {{ $item->peminjaman->status_peminjaman }}
                                     </span>
@@ -186,7 +186,7 @@
                 </div>
             </div>
         </section>
-        @foreach($collection->sortByDesc('created_at') as $item)
+        @foreach($collection->sortByDesc('updated_at') as $item)
         <div class="modal fade" id="ModalBuku_{{ $item->id }}" tabindex="-1" aria-labelledby="ModalBukuLabel"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -233,6 +233,9 @@
                                 @error('rating')
                                 <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+                            </div>
+                            <div class="d-flex">
+                                <span>Penting! Harap Kembalikan Tepat Waktu jika tidak akan dikenakan denda Rp.5000 Perhari</span>
                             </div>
                             <div class="form-group">
                                 <textarea class="form-control" name="comment" rows="6" placeholder="Comment" maxlength="200"></textarea>

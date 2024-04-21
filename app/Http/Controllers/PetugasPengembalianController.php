@@ -13,7 +13,7 @@ class PetugasPengembalianController extends Controller
     public function index()
     {
         // Ambil data peminjaman untuk ditampilkan di halaman index
-        $peminjaman = Peminjaman::orderBy('id', 'desc')->paginate(10);
+        $peminjaman = Peminjaman::orderBy('updated_at', 'desc')->get();
 
         return view('petugas.pengembalian.index', compact('peminjaman'));
     }
