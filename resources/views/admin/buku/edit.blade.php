@@ -21,9 +21,13 @@
             <input type="file" class="form-control" id="sampul" name="sampul">
             @if($item->sampul)
             <div class="mt-2">
-                <img src="{{ asset('storage/buku/' . $item->sampul) }}" alt="{{ $item->judul }}" style="max-width: 200px;">
+              <img src="{{ asset('storage/buku/' . $item->sampul) }}" alt="{{ $item->judul }}" style="max-width: 200px;">
             </div>
             @endif
+            <div class="mb-3">
+              <label for="stock" class="form-label">stock</label>
+              <input type="text" class="form-control" id="stock" name="stock" value="{{ $item->stock }}" required>
+            </div>
           </div>
           <div class="mb-3">
             <label for="penulis" class="form-label">Penulis</label>

@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('favorite', function (Blueprint $table) {
             $table->id();
+            
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('buku_id');
             $table->foreign('buku_id')->references('id')->on('buku');
+            $table->boolean('check')->default(false);
             $table->timestamps();
         });
     }

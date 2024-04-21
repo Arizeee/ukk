@@ -17,10 +17,12 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('buku_id');
             $table->foreign('buku_id')->references('id')->on('buku')->onDelete('cascade')->onUpdate('cascade');
+            
             $table->date('tanggal_peminjaman');
             $table->date('tanggal_pengembalian');
             $table->enum('status_peminjaman', ['Dipinjam','Dikembalikan']);
             $table->string('status_tunggu');
+            $table->int('stock');
             $table->timestamps();
         });
     }

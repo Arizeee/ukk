@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -9,6 +10,7 @@ use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\KoleksiController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PeminjamanController;
@@ -17,6 +19,7 @@ use App\Http\Controllers\PetugasUlasanController;
 use App\Http\Controllers\AdminPeminjamanController;
 use App\Http\Controllers\PetugasKategoriController;
 use App\Http\Controllers\PetugasPeminjamanController;
+use App\Http\Controllers\PetugasPengembalianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +62,7 @@ Route::middleware(['auth', 'UserAccess:admin'])->group(function () {
     Route::get('/kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
     Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::delete('/kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
-
+    
     Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
     Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
     Route::get('/buku/export-pdf', [BukuController::class, 'exportPdf'])->name('buku.exportPdf');
@@ -124,10 +127,13 @@ Route::middleware(['auth', 'UserAccess:petugas'])->group(function () {
     Route::get('/petugas/peminjaman/export-excel', [PetugasPeminjamanController::class, 'exportExcel'])->name('petugas.peminjaman.exportExcel');
     Route::get('/petugas/peminjaman/search', [PetugasPeminjamanController::class, 'search'])->name('petugas.peminjaman.search');
     Route::post('/petugas/peminjaman/{id}', [PetugasPeminjamanController::class, 'approve'])->name('petugas.approve');
+    Route::post('/petugas/pengembalian/{id}', [PetugasPeminjamanController::class, 'approve_kembali'])->name('petugas.approve.pengembalian');
     Route::get('/petugas/ulasan', [PetugasUlasanController::class, 'index'])->name('petugas.ulasan.index');
     Route::get('/petugas/ulasan/export-pdf', [PetugasUlasanController::class, 'exportPdf'])->name('petugas.ulasan.exportPdf');
     Route::get('/petugas/ulasan/export-excel', [PetugasUlasanController::class, 'exportExcel'])->name('petugas.ulasan.exportExcel');
     Route::delete('/petugas/ulasan/{id}', [PetugasUlasanController::class, 'destroy'])->name('petugas.ulasan.destroy');
+
+    Route::get('/petugas/pengembalian', [PetugasPengembalianController::class, 'index'])->name('petugas.pengembalian.index');
 });
 
 Route::middleware(['auth', 'UserAccess:peminjam'])->group(function () {
@@ -136,8 +142,11 @@ Route::middleware(['auth', 'UserAccess:peminjam'])->group(function () {
     Route::put('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
     Route::post('/pinjam/{id}', [PeminjamanController::class, 'pinjamBuku'])->name('peminjam.buku');
     Route::post('/pengembalian/{id}', [PeminjamanController::class, 'kembalikanBuku'])->name('pengembalian.buku');
+    Route::post('/pengajuan/pengembalian/{id}', [PetugasPengembalianController::class, 'ajukanpengembalian'])->name('ajukan.pengembalian.buku');
     Route::get('/koleksi', [KoleksiController::class, 'index'])->name('koleksi.index');
-    Route::get('/favorite', [KoleksiController::class, 'index'])->name('favorite.index');
+    Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
+    Route::post('/favorite/add/{id}', [FavoriteController::class, 'store'])->name('favorite.store');
+    Route::delete('/favorite/delete/{id}', [FavoriteController::class, 'destroy'])->name('favorite.delete'); 
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -146,4 +155,3 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/comment/{id}/update', [DashboardController::class, 'updateComment'])->name('comment.update');
     Route::delete('/comment/{id}/delete', [DashboardController::class, 'deleteComment'])->name('comment.delete');
 });
-

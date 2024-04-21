@@ -14,13 +14,12 @@ class KategoriSeeder extends Seeder
     public function run(): void
     {
         $kategoriData = [
-            ['nama_kategori' => 'Action'],
-            ['nama_kategori' => 'Komik'],
-            ['nama_kategori' => 'Novel'],
-            ['nama_kategori' => 'Romance'],
-            ['nama_kategori' => 'Fantasy'],
+            ['nama_kategori' => 'Fiksi'],
+            ['nama_kategori' => 'Non-Fiksi'],
+            ['nama_kategori' => 'Komedi'],
+            ['nama_kategori' => 'Horor'],
+            ['nama_kategori' => 'Drama'],
         ];
         DB::table('kategori')->insert($kategoriData);
-
     }
 }

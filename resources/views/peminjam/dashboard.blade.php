@@ -16,7 +16,7 @@
                 </div>
                 @else
                 @foreach ($buku->sortByDesc('created_at') as $item)
-                <article class="featured__card swiper-slide">
+                <article class="featured__card swiper-slide" data-buku-id="{{ $item->id }}">
                     <img src="{{ asset('storage/buku/' . $item->sampul) }}" alt="" class="featured__img">
                     <h2 class="featured__title">
                         {{ $item->judul }}
@@ -30,11 +30,77 @@
                         <a href="{{ route('peminjam.show', ['id' => $item->id]) }}">Lihat Buku</a>
                     </button>
                     <div class="featured__actions">
-                        <button><i class="ri-heart-fill"></i></button>
-                        <button><i class="ri-eye-line"></i></button>
+                        @if ($favorites->contains('buku_id', $item->id))
+                            <button class="after-favorited" {{-- style="display: none;" --}}
+                                onclick="toggleCancelFavorite(this)" data-id="{{ $item->id }}">
+                                <i class="ri-heart-fill"></i>
+                            </button>
+                        @else
+                            <button class="before-favorited" onclick="toggleFavorite(this)"
+                                data-id="{{ $item->id }}">
+                                <i class="ri-heart-line"></i>
+                            </button>
+                        @endif
                     </div>
                 </article>
                 @endforeach
+                <script>
+                    function toggleFavorite(button) {
+                        var bookId = button.getAttribute('data-id');
+
+                        // Mendapatkan token CSRF dari meta tag
+                        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                        // Kirim permintaan POST ke backend untuk menambahkan buku ke favorit
+                        fetch('/favorite/add/' + bookId, {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    book_id: bookId
+                                }),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': csrfToken, // Menambahkan token CSRF ke header
+                                    // Anda mungkin perlu menambahkan header authorization jika diperlukan
+                                    // 'Authorization': 'Bearer ' + token,
+                                }
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    // Perubahan UI saat buku ditambahkan ke favorit
+                                    button.innerHTML = '<i class="ri-heart-fill"></i>';
+                                    button.setAttribute('onclick', 'toggleCancelFavorite(this)');
+                                } else {
+                                    // Handle kesalahan jika ada
+                                    console.error('Gagal menambahkan ke favorit');
+                                }
+                            })
+                            .catch(error => console.error('Terjadi kesalahan:', error));
+                    }
+
+                    function toggleCancelFavorite(button) {
+                        var bookId = button.getAttribute('data-id');
+                        var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                        fetch('/favorite/delete/' + bookId, {
+                                method: 'DELETE',
+                                body: JSON.stringify({
+                                    book_id: bookId
+                                }),
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': csrfToken,
+                                }
+                            })
+                            .then(response => {
+                                if (response.ok) {
+                                    button.innerHTML = '<i class="ri-heart-line"></i>';
+                                    button.setAttribute('onclick', 'toggleFavorite(this)');
+                                } else {
+                                    console.error('Gagal menghapus dari favorit');
+                                }
+                            })
+                            .catch(error => console.error('Terjadi kesalahan:', error));
+                    }
+                </script>
             </div>
             <div class="swiper-button-prev">
                 <i class="ri-arrow-left-s-line"></i>
@@ -105,4 +171,8 @@
         </div>
     </div>
 </section>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @endsection

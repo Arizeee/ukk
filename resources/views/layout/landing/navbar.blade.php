@@ -50,12 +50,14 @@
         <div class="nav__actions">
             @auth
                 <!-- authenticated actions -->
-                <a href="{{ route('profile.index') }}"><i class="ri-user-line login-button" id="login-button"></i></a>
-                <a href="{{ route('logout') }}"><i class="ri-logout-box-r-line"></i></a>
+                <a href="{{ route('profile.index') }}" ><i class="ri-user-line login-button" id="login-button"></i><span style="color: var(--text-color);
+                    transition: color .4s; ">Profile</span></a>
+                <a href="{{ route('logout') }}" ><i class="ri-logout-box-r-line"></i><span style="color: var(--text-color);
+                    transition: color .4s; ">Logout</span></a>
             @else
                 <!-- unauthenticated actions -->
-                <a href="{{ route('login') }}"><i class="ri-login-box-line" id="login-button"></i></a>
-                <a href="{{ route('register') }}"><i class="ri-user-add-fill"></i></a>
+                <a href="{{ route('login') }}"><i class="ri-login-box-line" id="login-button"></i>Login</a>
+                <a href="{{ route('register') }}"><i class="ri-user-add-fill"></i>Register</a>
             @endauth
             <!-- theme button -->
             <i class="ri-moon-line change-theme" id="theme-button"></i>

@@ -20,30 +20,40 @@ class AuthController extends Controller
 
     // Sistem Login
     public function login(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
+{
+    // Validasi input
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+    // Ambil kredensial dari input
+    $credentials = $request->only('email', 'password');
 
-            switch ($user->role) {
-                case 'admin':
-                    return redirect()->intended('/admin');
-                    break;
-                
-                case 'petugas':
-                    return redirect()->intended('/petugas');
-                    break;
+    // Coba melakukan otentikasi
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
 
-                case 'peminjam':
-                default:
-                    return redirect()->intended('/');
-                    break;
-            }
+        // Redirect berdasarkan role pengguna
+        switch ($user->role) {
+            case 'admin':
+                return redirect()->intended('/admin');
+                break;
+            
+            case 'petugas':
+                return redirect()->intended('/petugas');
+                break;
+
+            case 'peminjam':
+            default:
+                return redirect()->intended('/');
+                break;
         }
-
-        return redirect()->route('/login')->with('error', 'Login gagal. Pastikan username dan password benar.');
     }
+
+    // Jika otentikasi gagal, kembalikan ke halaman login dengan pesan error
+    return redirect()->route('login')->with('error', 'Login gagal. Pastikan email dan password benar.');
+}
 
     // Sistem Register
     public function register(Request $request)

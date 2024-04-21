@@ -19,7 +19,7 @@ class BukuController extends Controller
 {
     public function index()
     {
-        $buku = Buku::paginate(10);
+        $buku = Buku::all();
         $kategori = Kategori::all(); // Mendapatkan semua kategori
         return view('admin.buku.index', compact('buku', 'kategori')); // Mentransfer $buku dan $kategori ke tampilan
     }
@@ -28,13 +28,14 @@ class BukuController extends Controller
     {
         $request->validate([
             'judul' => 'required',
+            'stock' => 'required',
             'sampul' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'penulis' => 'required',
             'penerbit' => 'required',
             'tahun_terbit' => 'required|numeric',
             'kategori_id' => 'required',
         ]);
-
+        // dd($request->all());
         $sampul = $request->file('sampul');
         $sampul_name = Str::random(20) . '.' . $sampul->getClientOriginalExtension();
         $sampul->storeAs('public/buku', $sampul_name);
@@ -42,11 +43,13 @@ class BukuController extends Controller
         $buku = new Buku([
             'judul' => $request->get('judul'),
             'sampul' => $sampul_name,
+            'stock' => $request->get('stock'),
             'penulis' => $request->get('penulis'),
             'penerbit' => $request->get('penerbit'),
             'tahun_terbit' => $request->get('tahun_terbit'),
             'kategori_id' => $request->get('kategori_id'),
         ]);
+        // dd($buku);
         $buku->save();
 
         return redirect('/buku')->with('success', 'Buku berhasil ditambahkan');
@@ -77,6 +80,7 @@ class BukuController extends Controller
     {
         $request->validate([
             'judul' => 'required',
+            'stock' => 'required',
             'penulis' => 'required',
             'penerbit' => 'required',
             'tahun_terbit' => 'required|integer',
@@ -85,6 +89,7 @@ class BukuController extends Controller
 
         $buku = Buku::find($id);
         $buku->judul = $request->judul;
+        $buku->stock = $request->stock;
         $buku->penulis = $request->penulis;
         $buku->penerbit = $request->penerbit;
         $buku->tahun_terbit = $request->tahun_terbit;

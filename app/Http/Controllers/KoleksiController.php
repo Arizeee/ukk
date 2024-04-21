@@ -17,7 +17,16 @@ class KoleksiController extends Controller
 {
     public function index()
     {
-        $userCollection = Koleksi::where('user_id', auth()->id())->get();
-        return view('peminjam.koleksi', ['collection' => $userCollection]);
+        $userHistory = Peminjaman::where('user_id', auth()->id())
+            ->where('status_tunggu', '!=', 'tunggu') // Memfilter peminjaman dengan status bukan 'tunggu'
+            ->pluck('id');
+
+        $userCollection = Koleksi::where('user_id', auth()->id())
+            // ->whereIn('id', $userHistory)
+            ->get();
+
+        //   dd($userCollection);
+
+        return view('peminjam.koleksi', ['collection' => $userCollection, 'history' => $userHistory]);
     }
 }
