@@ -15,6 +15,7 @@ use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\PetugasBukuController;
 use App\Http\Controllers\PetugasUlasanController;
 use App\Http\Controllers\AdminPeminjamanController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PetugasKategoriController;
 use App\Http\Controllers\PetugasPeminjamanController;
 use App\Http\Controllers\PetugasPengembalianController;
@@ -142,7 +143,9 @@ Route::middleware(['auth', 'UserAccess:peminjam'])->group(function () {
     Route::post('/pengembalian/{id}', [PeminjamanController::class, 'kembalikanBuku'])->name('pengembalian.buku');
     Route::post('/pengajuan/pengembalian/{id}', [PetugasPengembalianController::class, 'ajukanpengembalian'])->name('ajukan.pengembalian.buku');
     Route::get('/koleksi', [KoleksiController::class, 'index'])->name('koleksi.index');
-    Route::get('/favorite', [KoleksiController::class, 'index'])->name('favorite.index');
+    Route::get('/favorite', [FavoriteController::class, 'index'])->name('favorite.index');
+    Route::post('/favorite/add/{id}', [FavoriteController::class, 'store'])->name('favorite.store');
+    Route::delete('/favorite/delete/{id}', [FavoriteController::class, 'destroy'])->name('favorite.delete');
 });
 
 Route::middleware(['auth'])->group(function () {

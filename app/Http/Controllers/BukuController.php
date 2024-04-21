@@ -19,9 +19,9 @@ class BukuController extends Controller
 {
     public function index()
     {
-        $buku = Buku::paginate(10);
-        $kategori = Kategori::all(); // Mendapatkan semua kategori
-        return view('admin.buku.index', compact('buku', 'kategori')); // Mentransfer $buku dan $kategori ke tampilan
+        $buku = Buku::all();
+        $kategori = Kategori::all();
+        return view('admin.buku.index', compact('buku', 'kategori'));
     }
 
     public function store(Request $request)

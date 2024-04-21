@@ -3,7 +3,7 @@
     <div class="footer__container container grid">
        <div>
            <a href="" class="footer__logo">
-               <i class="ri-book-fill"></i>E-Book
+               <i class="ri-book-fill"></i>Bravest
            </a>
            <p class="footer__description">
                Find and explore the best <br>
@@ -74,7 +74,7 @@
        </div>
     </div>
 
-    <span class="footer__copy">
+    {{-- <span class="footer__copy">
        &#169; All Rights Reserved By Fariz
-    </span>
+    </span> --}}
  </footer>

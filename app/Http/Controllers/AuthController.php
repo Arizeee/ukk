@@ -30,7 +30,7 @@ class AuthController extends Controller
                 case 'admin':
                     return redirect()->intended('/admin');
                     break;
-                
+
                 case 'petugas':
                     return redirect()->intended('/petugas');
                     break;
@@ -42,7 +42,7 @@ class AuthController extends Controller
             }
         }
 
-        return redirect()->route('/login')->with('error', 'Login gagal. Pastikan username dan password benar.');
+        return redirect('/login')->with('error', 'Login gagal. Pastikan username dan password benar.');
     }
 
     // Sistem Register
@@ -64,7 +64,7 @@ class AuthController extends Controller
             'email' => $validatedData['email'],
             'name_lengkap' => $validatedData['name_lengkap'],
             'alamat' => $validatedData['alamat'],
-            'role' => 'peminjam', 
+            'role' => 'peminjam',
         ]);
 
         // Redirect pengguna setelah registrasi

@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use App\Models\Favorite;
 
 class DashboardController extends Controller
 {
@@ -20,12 +21,16 @@ class DashboardController extends Controller
         $buku = Buku::paginate(12);
         $kategori = Kategori::all();
         $ulasan = Ulasan::all();
+        $userId = Auth::id();
+
+        $favorites = Favorite::with('buku')->where('user_id', $userId)->get();
 
         if ($buku->isEmpty()) {
             $buku = null;
         }
 
-        return view('peminjam.dashboard', compact('buku', 'kategori', 'ulasan'));
+        // dd($favorites);
+        return view('peminjam.dashboard', compact('buku', 'kategori', 'ulasan', 'favorites'));
     }
 
     public function showBooksByCategory($category)

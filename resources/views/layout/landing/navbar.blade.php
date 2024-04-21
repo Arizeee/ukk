@@ -51,10 +51,10 @@
             @auth
                 <!-- authenticated actions -->
                 <a href="{{ route('profile.index') }}"><i class="ri-user-line login-button" id="login-button"></i></a>
-                <a href="{{ route('logout') }}"><i class="ri-logout-box-line"></i></a>
+                <a href="{{ route('logout') }}"><i class="ri-logout-box-line"></i>Logout</a>
             @else
                 <!-- unauthenticated actions -->
-                <a href="{{ route('login') }}"><i class="ri-logout-box-r-fill" id="login-button"></i></a>
+                <a href="{{ route('login') }}"><i class="ri-logout-box-r-fill" id="login-button"></i>Login</a>
                 <a href="{{ route('register') }}"><i class="ri-user-add-fill"></i></a>
             @endauth
             <!-- theme button -->
