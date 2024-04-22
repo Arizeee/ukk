@@ -180,13 +180,13 @@
                                                             @if ($item->status_peminjaman == '' || $item->status_peminjaman == null)
                                                                 <button class="btn btn-secondary" data-bs-toggle="modal"
                                                                     data-bs-target="#approveModal{{ $item->id }}">Approve</button>
-                                                                     <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                <button class="btn btn-danger" data-bs-toggle="modal"
                                                                     data-bs-target="#declinestockModal{{ $item->id }}">Decline</button>
                                                             @elseif ($item->status_peminjaman == 'Dipinjam')
                                                                 <button class="btn btn-success" data-bs-toggle="modal"
                                                                     disabled
                                                                     data-bs-target="#approveModal{{ $item->id }}">Approved</button>
-                                                                    {{-- @else
+                                                                {{-- @else
                                                             
                                                                 <button class="btn btn-secondary" data-bs-toggle="modal"
                                                                     data-bs-target="#approveModal{{ $item->id }}">Approve</button>
@@ -335,7 +335,7 @@
                                                             @if ($item->status_peminjaman == '' && $item->buku->stock != 0)
                                                                 <button class="btn btn-secondary" data-bs-toggle="modal"
                                                                     data-bs-target="#approveModal{{ $item->id }}">Approve</button>
-                                                                    <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                <button class="btn btn-danger" data-bs-toggle="modal"
                                                                     data-bs-target="#declinestockModal{{ $item->id }}">Decline</button>
                                                             @elseif ($item->status_peminjaman == 'Dipinjam' && $item->buku->stock != 0)
                                                                 <button class="btn btn-success" data-bs-toggle="modal"
@@ -401,6 +401,9 @@
                                                 stok_buku</th>
                                             <th
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                no_telp</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                                 Tanggal Peminjaman</th>
                                             <th
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
@@ -419,7 +422,10 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($peminjaman as $item)
-                                            @if ($item->status_peminjaman != '' && $item->status_peminjaman != 'Dikembalikan')
+                                            @if (
+                                                $item->status_peminjaman != '' &&
+                                                    $item->status_peminjaman != 'Dikembalikan' &&
+                                                    $item->status_peminjaman != 'Ditolak')
                                                 <tr>
                                                     <td
                                                         class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
@@ -441,6 +447,14 @@
                                                         <span
                                                             class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
                                                             {{ $item->buku->stock }}
+
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                            {{ $item->no_telp }}
 
                                                         </span>
                                                     </td>
@@ -494,7 +508,7 @@
                                                             @if ($item->status_peminjaman == '')
                                                                 <button class="btn btn-secondary" data-bs-toggle="modal"
                                                                     data-bs-target="#approveModal{{ $item->id }}">Approve</button>
-                                                            @elseif ($item->status_peminjaman == 'Dipinjam')
+                                                            @elseif ($item->status_peminjaman == 'Dipinjam' && strtotime($item->tanggal_pengembalian) > strtotime(date('Y-m-d')))
                                                                 <button class="btn btn-success" data-bs-toggle="modal"
                                                                     disabled
                                                                     data-bs-target="#approveModal{{ $item->id }}">Approved</button>
@@ -504,6 +518,10 @@
                                                                 <button class="btn btn-danger" disabled
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#declinestockModal{{ $item->id }}">Declined</button>
+                                                            @elseif(strtotime($item->tanggal_pengembalian) < strtotime(date('Y-m-d')))
+                                                                <button class="btn btn-warning" disabled
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#declinestockModal{{ $item->id }}">Terlambat</button>
                                                             @endif
                                                         </div>
                                                     </td>

@@ -130,7 +130,8 @@ class PetugasPeminjamanController extends Controller
     {
         $ulasan = Peminjaman::findOrFail($id);
         $ulasan->update([
-            'status_peminjaman' => 'Ditolak'
+            'status_peminjaman' => 'Ditolak',
+            'status_tunggu' => 'ditolak'
         ]);
 
         return redirect()->route('petugas.peminjaman.index')

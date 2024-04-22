@@ -111,12 +111,12 @@
                                         <span>Yahh stock buku habis nih. Tunggu sampai stock nya ada lagi ya.</span>
                                     </div>
                                 </form>
-                            {{-- @else
+                            @else
                                 <button class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="button"
                                     data-bs-toggle="modal" data-bs-target="#pinjamModal{{ $buku->id }}">
                                     <i class="bi bi-book-half"></i>
                                     Pinjam
-                                </button> --}}
+                                </button>
                             @endif
                         @elseif($role == 'admin' || $role == 'petugas')
                             <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST" class="d-flex">
@@ -151,8 +151,8 @@
                                         <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="no_telp" class="form-label">Tanggal Pengembalian</label>
-                                        <input type="number" placeholder="62+" class="form-control" id="no_telp" name="no_telp">
+                                        <label for="no_telp" class="form-label">Nomer Whatsapp</label>
+                                        <input type="number" placeholder="62+" class="form-control" required id="no_telp" name="no_telp">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Pinjam</button>
                                 </form>
