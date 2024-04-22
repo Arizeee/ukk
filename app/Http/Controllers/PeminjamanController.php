@@ -41,7 +41,7 @@ class PeminjamanController extends Controller
                 'tanggal_peminjaman' => $request->get('tanggal_peminjaman'),
                 'tanggal_pengembalian' => $request->get('tanggal_pengembalian'),
                 // 'status_peminjaman' => '',
-                'status_tunggu' => 'ditolak'
+                'status_tunggu' => 'tunggu'
             ]);
             $user = auth()->user();
             Koleksi::create([

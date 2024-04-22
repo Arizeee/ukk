@@ -111,12 +111,12 @@
                                         <span>Yahh stock buku habis nih. Tunggu sampai stock nya ada lagi ya.</span>
                                     </div>
                                 </form>
-                            @else
+                            {{-- @else
                                 <button class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="button"
                                     data-bs-toggle="modal" data-bs-target="#pinjamModal{{ $buku->id }}">
                                     <i class="bi bi-book-half"></i>
                                     Pinjam
-                                </button>
+                                </button> --}}
                             @endif
                         @elseif($role == 'admin' || $role == 'petugas')
                             <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST" class="d-flex">
