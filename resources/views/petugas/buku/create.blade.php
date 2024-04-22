@@ -15,6 +15,10 @@
               <input type="text" class="form-control" id="judul" name="judul" required>
             </div>
             <div class="mb-3">
+              <label for="judul" class="form-label">Stock</label>
+              <input type="text" class="form-control" id="stock" name="stock" required>
+            </div>
+            <div class="mb-3">
               <label for="penulis" class="form-label">Penulis</label>
               <input type="text" class="form-control" id="penulis" name="penulis" required>
             </div>

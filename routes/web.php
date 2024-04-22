@@ -126,6 +126,7 @@ Route::middleware(['auth', 'UserAccess:petugas'])->group(function () {
     Route::get('/petugas/peminjaman/export-excel', [PetugasPeminjamanController::class, 'exportExcel'])->name('petugas.peminjaman.exportExcel');
     Route::get('/petugas/peminjaman/search', [PetugasPeminjamanController::class, 'search'])->name('petugas.peminjaman.search');
     Route::post('/petugas/peminjaman/{id}', [PetugasPeminjamanController::class, 'approve'])->name('petugas.approve');
+    Route::post('/petugas/peminjaman/declinestock/{id}', [PetugasPeminjamanController::class, 'declinestock'])->name('petugas.decline.stock');
     Route::post('/petugas/pengembalian/{id}', [PetugasPeminjamanController::class, 'approve_kembali'])->name('petugas.approve.pengembalian');
     Route::get('/petugas/ulasan', [PetugasUlasanController::class, 'index'])->name('petugas.ulasan.index');
     Route::get('/petugas/ulasan/export-pdf', [PetugasUlasanController::class, 'exportPdf'])->name('petugas.ulasan.exportPdf');

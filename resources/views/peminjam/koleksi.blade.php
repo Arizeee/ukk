@@ -253,12 +253,18 @@
                             data-bs-dismiss="modal">
                             Tutup
                         </button>
-                        @else
+                        @elseif($item->peminjaman->status_peminjaman == 'Dikembalikan' && $item->peminjaman->status_tunggu == 'dikembalikan')
                         <!-- Informasi peminjaman -->
                         <p class="card-text"><strong>Tanggal Peminjaman:</strong>
                             {{ date('d-m-Y', strtotime($item->peminjaman->tanggal_peminjaman)) }}</p>
                         <p class="card-text"><strong>Tanggal Pengembalian:</strong>
                             {{ date('d-m-Y', strtotime($item->peminjaman->tanggal_pengembalian)) }}</p>
+                        <button class="btn btn-outline-dark flex-shrink-0 btn-lg" type="button"
+                            data-bs-dismiss="modal">
+                            Tutup
+                        </button>
+                        @elseif($item->peminjaman->status_peminjaman == 'Ditolak' && $item->peminjaman->status_tunggu == 'ditolak')
+                        <p class="card-text"><strong>Status peminjaman : Ditolak oleh petugas.</strong></p>
                         <button class="btn btn-outline-dark flex-shrink-0 btn-lg" type="button"
                             data-bs-dismiss="modal">
                             Tutup

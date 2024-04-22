@@ -65,7 +65,7 @@
                     <div
                         class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
                         <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                            <h6 class="dark:text-white">Tabel Peminjaman</h6>
+                            <h6 class="dark:text-white">Tabel Peminjaman Prioritas</h6>
                             {{-- <button class="btn btn-success mb-2 mt-3" data-bs-toggle="modal" data-bs-target="#modalCreate">Create</button> --}}
                             <a href="{{ route('petugas.peminjaman.exportPdf') }}" class="btn btn-danger mb-3">Export PDF</a>
                             <a href="{{ route('petugas.peminjaman.exportExcel') }}" class="btn btn-success mb-3">Export
@@ -109,86 +109,405 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($peminjaman as $item)
-                                            @if ($item->status_peminjaman != 'Dikembalikan')
-                                            <tr>
-                                                <td
-                                                    class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                    <span
-                                                        class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $loop->iteration }}</span>
-                                                </td>
-                                                <td
-                                                    class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                    <span
-                                                        class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->user->name_lengkap }}</span>
-                                                </td>
-                                                <td
-                                                    class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                    <span
-                                                        class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->buku->judul }}</span>
-                                                </td>
-                                                <td
-                                                    class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                    <span
-                                                        class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                        {{-- {{ $item->buku->judul }} --}}
-                                                        10
-                                                    </span>
-                                                </td>
-                                                <td
-                                                    class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                @if ($item->tanggal_peminjaman === '' || $item->tanggal_peminjaman === null) 
+                                        @foreach ($priority as $item)
+                                            @if ($item->status_peminjaman != 'Dikembalikan' && $item->status_peminjaman != 'Dipinjam' && $item->buku->stock != 0)
+                                                <tr>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                                                         <span
-                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">Menunggu</span>
-                                                    
-                                                @else
-                                                        <span
-                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->tanggal_peminjaman }}</span>
-                                                    
-                                                @endif
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $loop->iteration }}</span>
                                                     </td>
-                                                <td
-                                                    class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                   @if ($item->tanggal_pengembalian === '' || $item->tanggal_pengembalian === null) 
-                                                     <span
-                                                         class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">Belum Dikembalikan</span>
-                                                    @else 
-                                                         <span
-                                                         class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->tanggal_pengembalian }}</span>
-                                                   @endif
-                                                </td>
-                                                <td
-                                                    class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                    <span
-                                                        class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
-                                                        @if ($item->status_peminjaman == 'Dipinjam')
-                                                            <div class="" role="alert">
-                                                                Dipinjam
-                                                            </div>
-                                                        @elseif ($item->status_peminjaman == 'Dikembalikan')
-                                                            <div class="" role="alert">
-                                                                Dikembalikan
-                                                            </div>
-                                                        @elseif ($item->status_peminjaman == '')
-                                                            <div class="" role="alert">
-                                                                Menunggu
-                                                            </div>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->user->name_lengkap }}</span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->buku->judul }}</span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                            {{ $item->buku->stock }}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        @if ($item->tanggal_peminjaman === '' || $item->tanggal_peminjaman === null)
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">Menunggu</span>
+                                                        @else
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->tanggal_peminjaman }}</span>
                                                         @endif
-                                                    </span>
-                                                </td>
-                                                <td
-                                                    class="p-2  align-middle items-center  bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
-                                                    <div class="flex justify-evenly">
-                                                        @if ($item->status_peminjaman == '')
-                                                            <button class="btn btn-secondary" data-bs-toggle="modal"
-                                                                data-bs-target="#approveModal{{ $item->id }}">Approve</button>
-                                                        @elseif ($item->status_peminjaman == 'Dipinjam')
-                                                            <button class="btn btn-success" data-bs-toggle="modal" disabled
-                                                                data-bs-target="#approveModal{{ $item->id }}">Approved</button>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        @if ($item->tanggal_pengembalian === '' || $item->tanggal_pengembalian === null)
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">Belum
+                                                                Dikembalikan</span>
+                                                        @else
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->tanggal_pengembalian }}</span>
                                                         @endif
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                            @if ($item->status_peminjaman == 'Dipinjam')
+                                                                <div class="" role="alert">
+                                                                    Dipinjam
+                                                                </div>
+                                                            @elseif ($item->status_peminjaman == 'Dikembalikan')
+                                                                <div class="" role="alert">
+                                                                    Dikembalikan
+                                                                </div>
+                                                            @elseif ($item->status_peminjaman == '')
+                                                                <div class="" role="alert">
+                                                                    Menunggu
+                                                                </div>
+                                                            @endif
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2  align-middle items-center  bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <div class="flex justify-evenly">
+                                                            @if ($item->status_peminjaman == '' || $item->status_peminjaman == null)
+                                                                <button class="btn btn-secondary" data-bs-toggle="modal"
+                                                                    data-bs-target="#approveModal{{ $item->id }}">Approve</button>
+                                                                     <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                    data-bs-target="#declinestockModal{{ $item->id }}">Decline</button>
+                                                            @elseif ($item->status_peminjaman == 'Dipinjam')
+                                                                <button class="btn btn-success" data-bs-toggle="modal"
+                                                                    disabled
+                                                                    data-bs-target="#approveModal{{ $item->id }}">Approved</button>
+                                                                    {{-- @else
+                                                            
+                                                                <button class="btn btn-secondary" data-bs-toggle="modal"
+                                                                    data-bs-target="#approveModal{{ $item->id }}">Approve</button>
+                                                                     <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                    data-bs-target="#declinestockModal{{ $item->id }}">Decline</button> --}}
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {{-- table 2 --}}
+            <div class="flex flex-wrap -mx-3">
+                <div class="flex-none w-full max-w-full px-3">
+                    <div
+                        class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                        <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                            <h6 class="dark:text-white">Tabel Peminjaman Non Prioritas</h6>
+                            {{-- <button class="btn btn-success mb-2 mt-3" data-bs-toggle="modal" data-bs-target="#modalCreate">Create</button> --}}
+                            <a href="{{ route('petugas.peminjaman.exportPdf') }}" class="btn btn-danger mb-3">Export
+                                PDF</a>
+                            <a href="{{ route('petugas.peminjaman.exportExcel') }}" class="btn btn-success mb-3">Export
+                                Excel</a>
+
+                        </div>
+                        <div class="flex-auto px-0 pt-0 pb-2">
+                            <div class="p-0 overflow-x-auto">
+                                <table
+                                    class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
+                                    <thead class="align-bottom">
+                                        <tr>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                No</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                User</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Buku</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                stok_buku</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Tanggal Peminjaman</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Tanggal Pengembalian</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Status Peminjaman</th>
+
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Action</th>
+                                            <th
+                                                class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none dark:border-white/40 dark:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($peminjaman as $item)
+                                            @if ($item->status_peminjaman != 'Dikembalikan' && $item->status_peminjaman != 'Dipinjam')
+                                                <tr>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $loop->iteration }}</span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->user->name_lengkap }}</span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->buku->judul }}</span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                            {{ $item->buku->stock }}
+
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        @if ($item->tanggal_peminjaman === '' || $item->tanggal_peminjaman === null)
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">Menunggu</span>
+                                                        @else
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->tanggal_peminjaman }}</span>
+                                                        @endif
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        @if ($item->tanggal_pengembalian === '' || $item->tanggal_pengembalian === null)
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">Belum
+                                                                Dikembalikan</span>
+                                                        @else
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->tanggal_pengembalian }}</span>
+                                                        @endif
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                            @if ($item->status_peminjaman == 'Dipinjam')
+                                                                <div class="" role="alert">
+                                                                    Dipinjam
+                                                                </div>
+                                                            @elseif ($item->status_peminjaman == 'Dikembalikan')
+                                                                <div class="" role="alert">
+                                                                    Dikembalikan
+                                                                </div>
+                                                            @elseif ($item->status_peminjaman == '')
+                                                                <div class="" role="alert">
+                                                                    Menunggu
+                                                                </div>
+                                                            @else
+                                                                <div class="" role="alert">
+                                                                    {{ $item->status_peminjaman }}
+                                                                </div>
+                                                            @endif
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2  align-middle items-center  bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <div class="flex justify-evenly">
+                                                            @if ($item->status_peminjaman == '' && $item->buku->stock != 0)
+                                                                <button class="btn btn-secondary" data-bs-toggle="modal"
+                                                                    data-bs-target="#approveModal{{ $item->id }}">Approve</button>
+                                                                    <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                    data-bs-target="#declinestockModal{{ $item->id }}">Decline</button>
+                                                            @elseif ($item->status_peminjaman == 'Dipinjam' && $item->buku->stock != 0)
+                                                                <button class="btn btn-success" data-bs-toggle="modal"
+                                                                    disabled
+                                                                    data-bs-target="#approveModal{{ $item->id }}">Approved</button>
+                                                            @elseif ($item->status_peminjaman == '' && $item->buku->stock == 0)
+                                                                {{-- <button class="btn btn-warning" data-bs-toggle="modal" disabled
+                                                                data-bs-target="#approveModal{{ $item->id }}">Stock kosong</button> --}}
+                                                                <button class="btn btn-danger" data-bs-toggle="modal"
+                                                                    data-bs-target="#declinestockModal{{ $item->id }}">Decline</button>
+                                                            @elseif ($item->status_peminjaman == 'Ditolak')
+                                                                {{-- <button class="btn btn-warning" data-bs-toggle="modal" disabled
+                                                                data-bs-target="#approveModal{{ $item->id }}">Stock kosong</button> --}}
+                                                                <button class="btn btn-danger" disabled
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#declinestockModal{{ $item->id }}">Declined</button>
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            {{-- table 3 --}}
+            <div class="flex flex-wrap -mx-3">
+                <div class="flex-none w-full max-w-full px-3">
+                    <div
+                        class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-xl dark:bg-slate-850 dark:shadow-dark-xl rounded-2xl bg-clip-border">
+                        <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                            <h6 class="dark:text-white">Data peminjaman yang telah di Approve</h6>
+                            {{-- <button class="btn btn-success mb-2 mt-3" data-bs-toggle="modal" data-bs-target="#modalCreate">Create</button> --}}
+                            {{-- <a href="{{ route('petugas.peminjaman.exportPdf') }}" class="btn btn-danger mb-3">Export PDF</a>
+                            <a href="{{ route('petugas.peminjaman.exportExcel') }}" class="btn btn-success mb-3">Export
+                                Excel</a> --}}
+
+                        </div>
+                        <div class="flex-auto px-0 pt-0 pb-2">
+                            <div class="p-0 overflow-x-auto">
+                                <table
+                                    class="items-center w-full mb-0 align-top border-collapse dark:border-white/40 text-slate-500">
+                                    <thead class="align-bottom">
+                                        <tr>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                No</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                User</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Buku</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                stok_buku</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Tanggal Peminjaman</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Tanggal Pengembalian</th>
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Status Peminjaman</th>
+
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-collapse shadow-none dark:border-white/40 dark:text-white text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                Action</th>
+                                            <th
+                                                class="px-6 py-3 font-semibold capitalize align-middle bg-transparent border-b border-collapse border-solid shadow-none dark:border-white/40 dark:text-white tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($peminjaman as $item)
+                                            @if ($item->status_peminjaman != '' && $item->status_peminjaman != 'Dikembalikan')
+                                                <tr>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $loop->iteration }}</span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->user->name_lengkap }}</span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->buku->judul }}</span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                            {{ $item->buku->stock }}
+
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        @if ($item->tanggal_peminjaman === '' || $item->tanggal_peminjaman === null)
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">Menunggu</span>
+                                                        @else
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->tanggal_peminjaman }}</span>
+                                                        @endif
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        @if ($item->tanggal_pengembalian === '' || $item->tanggal_pengembalian === null)
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">Belum
+                                                                Dikembalikan</span>
+                                                        @else
+                                                            <span
+                                                                class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">{{ $item->tanggal_pengembalian }}</span>
+                                                        @endif
+                                                    </td>
+                                                    <td
+                                                        class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <span
+                                                            class="text-xs font-semibold leading-tight dark:text-white dark:opacity-80 text-slate-400">
+                                                            @if ($item->status_peminjaman == 'Dipinjam')
+                                                                <div class="" role="alert">
+                                                                    Dipinjam
+                                                                </div>
+                                                            @elseif ($item->status_peminjaman == 'Dikembalikan')
+                                                                <div class="" role="alert">
+                                                                    Dikembalikan
+                                                                </div>
+                                                            @elseif ($item->status_peminjaman == '')
+                                                                <div class="" role="alert">
+                                                                    Menunggu
+                                                                </div>
+                                                            @elseif ($item->status_peminjaman == 'Ditolak')
+                                                                <div class="" role="alert">
+                                                                    Ditolak
+                                                                </div>
+                                                            @endif
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        class="p-2  align-middle items-center  bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
+                                                        <div class="flex justify-evenly">
+                                                            @if ($item->status_peminjaman == '')
+                                                                <button class="btn btn-secondary" data-bs-toggle="modal"
+                                                                    data-bs-target="#approveModal{{ $item->id }}">Approve</button>
+                                                            @elseif ($item->status_peminjaman == 'Dipinjam')
+                                                                <button class="btn btn-success" data-bs-toggle="modal"
+                                                                    disabled
+                                                                    data-bs-target="#approveModal{{ $item->id }}">Approved</button>
+                                                            @elseif ($item->status_peminjaman == 'Ditolak')
+                                                                {{-- <button class="btn btn-warning" data-bs-toggle="modal" disabled
+                                                                data-bs-target="#approveModal{{ $item->id }}">Stock kosong</button> --}}
+                                                                <button class="btn btn-danger" disabled
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#declinestockModal{{ $item->id }}">Declined</button>
+                                                            @endif
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             @endif
                                         @endforeach
 
@@ -204,6 +523,7 @@
         </div>
         {{-- @include('admin.user.edit') --}}
         @include('petugas.peminjaman.approve')
+        @include('petugas.peminjaman.decline')
         {{-- @include('admin.user.delete') --}}
     </main>
 @endsection

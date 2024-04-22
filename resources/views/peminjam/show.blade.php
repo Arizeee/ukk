@@ -27,6 +27,7 @@
                     <h1 class="lead fs-3">Tahun Terbit: {{ $buku->tahun_terbit }}</h1>
                     <h1 class="lead fs-3">Penulis: {{ $buku->penulis }}</h1>
                     <h1 class="lead fs-3">Penerbit: {{ $buku->penerbit }}</h1>
+                    <h1 class="lead fs-3">Stock buku: {{ $buku->stock }}</h1>
                     <div class="lead rate mt-2">
                         @php
                             $ratingValue = $buku->ulasan->avg('rating'); // Dapatkan nilai rating dari database
@@ -51,7 +52,7 @@
                         @endphp
 
                         @if ($role == 'peminjam')
-                            @if (isset($status) && $status->status_tunggu === 'tunggu' && $status->status_peminjaman === null)
+                            @if (isset($status) && $status->status_tunggu === 'tunggu' && $status->status_peminjaman === null && $buku->stock != 0)
                                 <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST" class="d-flex">
                                     @csrf
                                     <button disabled class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="submit">
@@ -65,9 +66,10 @@
                                     <button disabled class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="submit">
                                         <i class="bi bi-book-half"></i>
                                         peminjaman telah di approve
-                                    </button> 
+                                    </button>
                                     <div class="">
-                                        <span>Penting! Harap Kembalikan Tepat Waktu jika tidak akan dikenakan denda Rp.5000 Perhari</span>
+                                        <span>Penting! Harap Kembalikan Tepat Waktu jika tidak akan dikenakan denda Rp.5000
+                                            Perhari</span>
                                     </div>
                                 </form>
                                 {{-- <form action="{{ route('ajukan.pengembalian.buku', ['id' => $status->id]) }}" method="POST"
@@ -79,21 +81,42 @@
                                     </button>
                                 </form> --}}
                             @elseif(isset($status) && $status->status_tunggu === 'pengembalian')
-                                <form action="{{ route('peminjam.buku', ['id' => $status->id]) }}" method="POST" class="d-flex">
+                                <form action="{{ route('peminjam.buku', ['id' => $status->id]) }}" method="POST"
+                                    class="d-flex">
                                     @csrf
                                     <button disabled class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="submit">
                                         <i class="bi bi-book-half"></i>
                                         menunggu approval pengembalian
                                     </button>
                                 </form>
-                            @else
-                                <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST" class="d-flex">
+                            @elseif($buku->stock == 0 && $status->status_peminjaman == 'Ditolak')
+                                <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST" class="">
                                     @csrf
-                                    <button class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="submit">
+                                    <button class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" disabled type="submit">
                                         <i class="bi bi-book-half"></i>
-                                        Pinjam
+                                        Stock habis
                                     </button>
+                                    <div class="">
+                                        <span>Yahh stock buku habis nih. Tunggu sampai stock nya ada lagi ya.</span>
+                                    </div>
                                 </form>
+                            @elseif($buku->stock <= 0)
+                                <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST" class="">
+                                    @csrf
+                                    <button class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" disabled type="submit">
+                                        <i class="bi bi-book-half"></i>
+                                        Stock habis
+                                    </button>
+                                    <div class="">
+                                        <span>Yahh stock buku habis nih. Tunggu sampai stock nya ada lagi ya.</span>
+                                    </div>
+                                </form>
+                            @else
+                                <button class="btn btn-outline-dark flex-shrink-0 btn-lg mt-3" type="button"
+                                    data-bs-toggle="modal" data-bs-target="#pinjamModal{{ $buku->id }}">
+                                    <i class="bi bi-book-half"></i>
+                                    Pinjam
+                                </button>
                             @endif
                         @elseif($role == 'admin' || $role == 'petugas')
                             <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST" class="d-flex">
@@ -106,6 +129,36 @@
                         @endif
 
                     @endauth
+                </div>
+                <div class="modal fade" id="pinjamModal{{ $buku->id }}" tabindex="-1" aria-labelledby="pinjamModalLabel{{ $buku->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="pinjamModalLabel{{ $buku->id }}">Pinjam Buku</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Isi modal di sini, misalnya form untuk memasukkan informasi peminjam -->
+                                <form action="{{ route('peminjam.buku', ['id' => $buku->id]) }}" method="POST">
+                                    @csrf
+                                    <!-- Isi form disini -->
+                                    <div class="mb-3">
+                                        <label for="tanggal_peminjaman" class="form-label">Tanggal peminjaman</label>
+                                        <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tanggal_pengembalian" class="form-label">Tanggal Pengembalian</label>
+                                        <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="no_telp" class="form-label">Tanggal Pengembalian</label>
+                                        <input type="number" placeholder="62+" class="form-control" id="no_telp" name="no_telp">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Pinjam</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="container m-5 ">
                     <!-- Daftar komentar yang sudah ada -->

@@ -16,6 +16,7 @@ use App\Exports\PeminjamanExport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PetugasPeminjamanController extends Controller
 {
@@ -62,7 +63,7 @@ class PetugasPeminjamanController extends Controller
     {
         $query = $request->input('q');
         $peminjaman = Peminjaman::where('status_peminjaman', 'LIKE', "%$query%")->paginate(10);
-        
+
         if ($peminjaman->isEmpty()) {
             return redirect()->route('petugas.peminjaman.index')->with('error', 'User tidak ditemukan.');
         }
@@ -75,24 +76,35 @@ class PetugasPeminjamanController extends Controller
         // Ambil data peminjaman untuk ditampilkan di halaman index
         $peminjaman = Peminjaman::orderBy('updated_at', 'desc')->get();
 
+        // priority data
+        $priority = Peminjaman::getPriority();
+
+        // dd($priority);
+
+        // non priority data
+        // $nonpriority = Peminjaman::select('id', 'buku_id', 'created_at')
+        //     ->orderBy('created_at', 'desc')
+        //     ->groupBy('buku_id')
+        //     ->first();
+
         // dd($peminjaman);
 
-        return view('petugas.peminjaman.index', compact('peminjaman'));
+        return view('petugas.peminjaman.index', compact('peminjaman', 'priority'));
     }
 
     public function exportPdf()
-    {        
+    {
         $peminjaman = Peminjaman::all();
         $pdf = Pdf::loadView('pdf.export-peminjaman', ['peminjaman' => $peminjaman])->setOption(['defaultFont' => 'sans-serif']);
         // Membuat nama file PDF dengan waktu saat ini
         $fileName = 'export-peminjaman-' . Date::now()->format('Y-m-d_H-i-s') . '.pdf';
-        
+
         return $pdf->download($fileName);
     }
 
     public function exportExcel()
     {
-        return (new PeminjamanExport)->download('peminjaman-'.Carbon::now()->timestamp.'.xlsx');
+        return (new PeminjamanExport)->download('peminjaman-' . Carbon::now()->timestamp . '.xlsx');
     }
     public function approve(Request $request, string $id)
     {
@@ -104,7 +116,7 @@ class PetugasPeminjamanController extends Controller
 
         // dd($request->all());
         $kategori->update($request->all());
-        
+
         $koleksi = Koleksi::where('peminjaman_id', $id)->first();
 
         $koleksi->update([
@@ -113,6 +125,16 @@ class PetugasPeminjamanController extends Controller
 
         return redirect()->route('petugas.peminjaman.index')
             ->with('success', 'Kategori berhasil di approve.');
+    }
+    public function declinestock(string $id)
+    {
+        $ulasan = Peminjaman::findOrFail($id);
+        $ulasan->update([
+            'status_peminjaman' => 'Ditolak'
+        ]);
+
+        return redirect()->route('petugas.peminjaman.index')
+            ->with('success', 'Ulasan berhasil dihapus.');
     }
     public function approve_kembali(Request $request, string $id)
     {
@@ -125,11 +147,11 @@ class PetugasPeminjamanController extends Controller
         $kategori->update($request->all());
         $koleksi = Koleksi::where('peminjaman_id', $id)->first();
 
-        
+
         $koleksi->update([
             'updated_at' => now(),
         ]);
-        
+
         // dd($request->all());
         return redirect()->route('petugas.pengembalian.index')
             ->with('success', 'Kategori berhasil di approve.');

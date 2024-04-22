@@ -48,6 +48,7 @@
                                         <th>Judul</th>
                                         <th>Penulis</th>
                                         <th>Penerbit</th>
+                                        <th>Stok</th>
                                         <th>Tahun terbit</th>
                                         <th>Kategori</th>
                                     </tr>
@@ -59,6 +60,7 @@
                                         <td>{{ $item->judul }}</td>
                                         <td>{{ $item->penulis }}</td>
                                         <td>{{ $item->penerbit }}</td>
+                                        <td>{{ $item->stock }}</td>
                                         <td>{{ $item->tahun_terbit }}</td>
                                         <td>{{ $item->kategori->nama_kategori }}</td>
                                     </tr>

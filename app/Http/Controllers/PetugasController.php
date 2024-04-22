@@ -21,6 +21,7 @@ class PetugasController extends Controller
         $kategoriCount = Kategori::count();
         $usersCount = User::count();
         $peminjamanCount = Peminjaman::count();
-        return view('petugas.dashboard', ['buku_count' => $bukuCount, 'kategori_count' => $kategoriCount, 'users_count' => $usersCount, 'peminjaman_count' => $peminjamanCount]);
+        $pengembalianCount = Peminjaman::where('status_peminjaman', 'Dikembalikan')->count();
+        return view('petugas.dashboard', ['buku_count' => $bukuCount, 'kategori_count' => $kategoriCount, 'users_count' => $usersCount, 'peminjaman_count' => $peminjamanCount, 'pengembalian_count' => $pengembalianCount]);
     }
 }

@@ -65,23 +65,15 @@ class DashboardController extends Controller
         $user = Auth::user();
         $buku = Buku::findOrFail($id);
         $kategori = Kategori::all();
-        $userId = Auth::user()->id;
-
-        $status_tunggu = Peminjaman::where('buku_id', $id)
+    
+        // Dapatkan status peminjaman berdasarkan pengguna yang sedang login dan ID buku
+        $status = Peminjaman::where('buku_id', $id)
+            ->where('user_id', Auth::id())
             ->orderBy('created_at', 'desc')
             ->first();
-
-
-
-        // Jika $status null, maka set nilai default
-        $status = $status_tunggu ? $status_tunggu : $status_tunggu = $status_tunggu = Peminjaman::where('buku_id', $id)
-            ->orderBy('created_at', 'desc')
-            ->first();;;
-
+    
         $ulasan = $buku->ulasan;
-
-        // dd($status);
-
+    
         return view('peminjam.show', compact('buku', 'kategori', 'ulasan', 'status'));
     }
 

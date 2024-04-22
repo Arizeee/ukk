@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PeminjamanController extends Controller
 {
-    public function pinjamBuku($id)
+    public function pinjamBuku($id, Request $request)
     {
         // Periksa apakah pengguna sudah login
         if (Auth::check()) {
@@ -37,10 +37,11 @@ class PeminjamanController extends Controller
             $peminjaman = Peminjaman::create([
                 'user_id' => $user->id,
                 'buku_id' => $buku->id,
-                // 'tanggal_peminjaman' => now(),
-                // 'tanggal_pengembalian' => now()->addDays(14), // Contoh: 14 hari batas peminjaman
+                'no_telp' => $request->get('no_telp'),
+                'tanggal_peminjaman' => $request->get('tanggal_peminjaman'),
+                'tanggal_pengembalian' => $request->get('tanggal_pengembalian'),
                 // 'status_peminjaman' => '',
-                'status_tunggu' => 'tunggu'
+                'status_tunggu' => 'ditolak'
             ]);
             $user = auth()->user();
             Koleksi::create([

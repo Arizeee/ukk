@@ -45,31 +45,25 @@
             </div>
             @endif
             <!-- Email input -->
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="email" id="form1Example13" name="email" class="form-control form-control-lg" />
+            <div data-mdb-input-init class="form-outline mb-2">
               <label class="form-label" for="form1Example13">Email address</label>
+              <input type="email" placeholder="your email here" id="form1Example13" name="email" class="form-control form-control-lg" />
             </div>
   
             <!-- Password input -->
-            <div data-mdb-input-init class="form-outline mb-4">
-              <input type="password" name="password" id="form1Example23" class="form-control form-control-lg" />
+            <div data-mdb-input-init class="form-outline mb-2">
               <label class="form-label" for="form1Example23">Password</label>
+              <input type="password" placeholder="your password here" name="password" id="form1Example23" class="form-control form-control-lg" />
             </div>
   
-            <div class="d-flex justify-content-around align-items-center mb-4">
-              <!-- Checkbox -->
-              
-              <!-- Submit button -->
-              {{-- <button class="btn btn-primary" type="button" data-mdb-ripple-init>Button</button> --}}
-              
-            </div>
-
-  
-            <div class="d-grid gap-2">
+            <div class="d-grid gap-2 mt-4">
               {{-- <button class="btn btn-primary" type="button" data-mdb-ripple-init>Button</button> --}}
               <button class="btn btn-primary" type="submit" data-mdb-ripple-init>Login</button>
             </div>
-            <a href="/register">Register</a>
+            <div class="py-4 d-flex">
+              <p class="px-2">Tidak punya akun? </p>
+              <a href="/register">Register here</a>
+            </div>
           </form>
         </div>
       </div>

@@ -67,6 +67,8 @@ class AuthController extends Controller
             'role' => 'peminjam',
         ]);
 
+        $user->save();
+
         // Redirect pengguna setelah registrasi
         return redirect('/login')->with('success', 'Registration successful. Please login.');
     }

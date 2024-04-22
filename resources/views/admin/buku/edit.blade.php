@@ -17,6 +17,10 @@
             <input type="text" class="form-control" id="judul" name="judul" value="{{ $item->judul }}" required>
           </div>
           <div class="mb-3">
+            <label for="judul" class="form-label">Stock</label>
+            <input type="text" class="form-control" id="stock" name="stock" value="{{ $item->stock }}" required>
+          </div>
+          <div class="mb-3">
             <label for="sampul" class="form-label">Sampul</label>
             <input type="file" class="form-control" id="sampul" name="sampul">
             @if($item->sampul)

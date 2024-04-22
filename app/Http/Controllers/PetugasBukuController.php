@@ -43,6 +43,7 @@ class PetugasBukuController extends Controller
     {
         $request->validate([
             'judul' => 'required',
+            'stock' => 'required',
             'sampul' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'penulis' => 'required',
             'penerbit' => 'required',
@@ -58,6 +59,7 @@ class PetugasBukuController extends Controller
 
         $buku = new Buku([
             'judul' => $request->get('judul'),
+            'stock' => $request->get('stock'),
             'sampul' => $sampul_name,
             'penulis' => $request->get('penulis'),
             'penerbit' => $request->get('penerbit'),
@@ -95,6 +97,7 @@ class PetugasBukuController extends Controller
     {
         $request->validate([
             'judul' => 'required',
+            'stock' => 'required',
             'penulis' => 'required',
             'penerbit' => 'required',
             'tahun_terbit' => 'required|integer',
@@ -103,6 +106,7 @@ class PetugasBukuController extends Controller
 
         $buku = Buku::find($id);
         $buku->judul = $request->judul;
+        $buku->stock = $request->stock;
         $buku->penulis = $request->penulis;
         $buku->penerbit = $request->penerbit;
         $buku->tahun_terbit = $request->tahun_terbit;

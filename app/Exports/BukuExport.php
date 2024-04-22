@@ -23,11 +23,13 @@ class BukuExport implements FromCollection, WithMapping, WithHeadings
 
     public function map($buku): array
     {
+        $stock = $buku->stock > 0 ? $buku->stock : 'Stock Kosong';
         return [
             $buku->id,
             $buku->judul,
             $buku->penulis,
             $buku->penerbit,
+            $stock,
             $buku->tahun_terbit,
             $buku->kategori->nama_kategori,
         ];
@@ -40,6 +42,7 @@ class BukuExport implements FromCollection, WithMapping, WithHeadings
             'Judul',
             'Penulis',
             'Penerbit',
+            'stock',
             'Tahun terbit',
             'Kategori',
         ];
